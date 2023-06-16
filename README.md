@@ -1,2 +1,4 @@
 # rails_stand
-Practices with architecture development 
+Practices with architecture development
+
+![](plan.png)
