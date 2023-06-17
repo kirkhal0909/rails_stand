@@ -1,0 +1,68 @@
+services:
+  rails:
+    build:
+      context: .
+      dockerfile: config/docker/rails/Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - gem_cache:/usr/local/bundle/gems
+    env_file: .env
+    environment:
+      RAILS_ENV: development
+
+  sentry:
+    build:
+      context: .
+      dockerfile: config/docker/sentry/Dockerfile
+    links:
+     - redis
+     - postgres-sentry
+    ports:
+     - 9000:9000
+    environment:
+      SENTRY_SECRET_KEY: $SENTRY_SECRET_KEY
+      SENTRY_POSTGRES_HOST: $SENTRY_DATABASE_HOST
+      SENTRY_DB_NAME: $SETNRY_DATABASE_NAME
+      SENTRY_DB_USER: $DATABASE_USER
+      SENTRY_DB_PASSWORD: $DATABASE_PASSWORD
+      SENTRY_REDIS_HOST: redis
+
+  postgres-sentry:
+    image: postgres:15
+    volumes:
+      - sentry_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: $SETNRY_DATABASE_NAME
+      POSTGRES_USER: $DATABASE_USER
+      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+    healthcheck:
+      test: CMD-SHELL pg_isready -d $SETNRY_DATABASE_NAME -U $DATABASE_USER
+      interval: 5s
+      timeout: 5s
+      retries: 40
+
+  redis:
+    image: redis
+
+  postgres:
+    image: postgres:15
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: $DATABASE_NAME
+      POSTGRES_USER: $DATABASE_USER
+      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+    healthcheck:
+      test: CMD-SHELL pg_isready -d $DATABASE_NAME -U $DATABASE_USER
+      interval: 5s
+      timeout: 5s
+      retries: 40
+
+volumes:
+  gem_cache:
+  db_data:
+  sentry_db_data:
