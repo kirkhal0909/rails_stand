@@ -15,30 +15,33 @@ services:
       RAILS_ENV: development
 
   sentry:
-    build:
-      context: .
-      dockerfile: config/docker/sentry/Dockerfile
+    image: sentry
     links:
      - redis
      - postgres-sentry
     ports:
      - 9000:9000
     environment:
-      SENTRY_SECRET_KEY: $SENTRY_SECRET_KEY
-      SENTRY_POSTGRES_HOST: $SENTRY_DATABASE_HOST
-      SENTRY_DB_NAME: $SETNRY_DATABASE_NAME
-      SENTRY_DB_USER: $DATABASE_USER
-      SENTRY_DB_PASSWORD: $DATABASE_PASSWORD
-      SENTRY_REDIS_HOST: redis
+      SENTRY_SERVER_EMAIL: "$SENTRY_SERVER_EMAIL"
+      SENTRY_EMAIL_USER: "$SENTRY_EMAIL_USER"
+      SENTRY_EMAIL_PASSWORD: "$SENTRY_EMAIL_PASSWORD"
+      SENTRY_SECRET_KEY: "$SENTRY_SECRET_KEY"
+      SENTRY_POSTGRES_HOST: "$SENTRY_DATABASE_HOST"
+      SENTRY_DB_NAME: "$SETNRY_DATABASE_NAME"
+      SENTRY_DB_USER: "$DATABASE_USER"
+      SENTRY_DB_PASSWORD: "$DATABASE_PASSWORD"
+      SENTRY_REDIS_HOST: "redis"
 
   postgres-sentry:
     image: postgres:15
     volumes:
       - sentry_db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: $SETNRY_DATABASE_NAME
-      POSTGRES_USER: $DATABASE_USER
-      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+      #POSTGRES_DB: "$SETNRY_DATABASE_NAME"
+      POSTGRES_USER: "$DATABASE_USER"
+      POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
+    ports:
+      - "5000:5432"
     healthcheck:
       test: CMD-SHELL pg_isready -d $SETNRY_DATABASE_NAME -U $DATABASE_USER
       interval: 5s
@@ -53,9 +56,9 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: $DATABASE_NAME
-      POSTGRES_USER: $DATABASE_USER
-      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+      POSTGRES_DB: "$DATABASE_NAME"
+      POSTGRES_USER: "$DATABASE_USER"
+      POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
     healthcheck:
       test: CMD-SHELL pg_isready -d $DATABASE_NAME -U $DATABASE_USER
       interval: 5s
