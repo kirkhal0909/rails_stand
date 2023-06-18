@@ -1,19 +1,4 @@
 services:
-  rails:
-    build:
-      context: .
-      dockerfile: config/docker/rails/Dockerfile
-    depends_on:
-      - postgres
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/app
-      - gem_cache:/usr/local/bundle/gems
-    env_file: .env
-    environment:
-      RAILS_ENV: development
-
   sentry:
     hostname: sentry
     image: sentry
@@ -77,27 +62,5 @@ services:
       timeout: 5s
       retries: 40
 
-  redis:
-    image: redis:6.2.6
-
-  postgres:
-    image: postgres:15.3
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: "$DATABASE_NAME"
-      POSTGRES_USER: "$DATABASE_USER"
-      POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
-    healthcheck:
-      test: CMD-SHELL pg_isready -d $DATABASE_NAME -U $DATABASE_USER
-      interval: 5s
-      timeout: 5s
-      retries: 40
-
-networks:
-  backend:
-
 volumes:
-  gem_cache:
-  db_data:
   sentry_db_data:
