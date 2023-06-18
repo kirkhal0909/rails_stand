@@ -1,0 +1,66 @@
+services:
+  sentry:
+    hostname: sentry
+    image: sentry
+    links:
+     - redis
+     - sentry-postgres
+    ports:
+     - 9000:9000
+    environment:
+      SENTRY_SERVER_EMAIL: "$SENTRY_SERVER_EMAIL"
+      SENTRY_EMAIL_USER: "$SENTRY_EMAIL_USER"
+      SENTRY_EMAIL_PASSWORD: "$SENTRY_EMAIL_PASSWORD"
+      SENTRY_SECRET_KEY: "$SENTRY_SECRET_KEY"
+      SENTRY_POSTGRES_HOST: "$SENTRY_DATABASE_HOST"
+      SENTRY_DB_NAME: "$SETNRY_DATABASE_NAME"
+      SENTRY_DB_USER: "$DATABASE_USER"
+      SENTRY_DB_PASSWORD: "$DATABASE_PASSWORD"
+      SENTRY_REDIS_HOST: "redis"
+
+  sentry-cron:
+    image: sentry
+    command: run cron
+    environment:
+      SENTRY_POSTGRES_HOST: "$SENTRY_DATABASE_HOST"
+      SENTRY_DB_NAME: "$SETNRY_DATABASE_NAME"
+      SENTRY_DB_USER: "$DATABASE_USER"
+      SENTRY_DB_PASSWORD: "$DATABASE_PASSWORD"
+      SENTRY_SECRET_KEY: "$SENTRY_SECRET_KEY"
+      SENTRY_REDIS_HOST: "redis"
+    depends_on:
+      - sentry-postgres
+      - redis
+
+  sentry-worker:
+    image: sentry
+    command: run worker
+    environment:
+      SENTRY_POSTGRES_HOST: "$SENTRY_DATABASE_HOST"
+      SENTRY_DB_NAME: "$SETNRY_DATABASE_NAME"
+      SENTRY_DB_USER: "$DATABASE_USER"
+      SENTRY_DB_PASSWORD: "$DATABASE_PASSWORD"
+      SENTRY_SECRET_KEY: "$SENTRY_SECRET_KEY"
+      SENTRY_REDIS_HOST: "redis"
+    depends_on:
+      - sentry-postgres
+      - redis
+
+  sentry-postgres:
+    image: postgres:15.3
+    volumes:
+      - sentry_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "$SETNRY_DATABASE_NAME"
+      POSTGRES_USER: "$DATABASE_USER"
+      POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
+    ports:
+      - "5000:5432"
+    healthcheck:
+      test: CMD-SHELL pg_isready -d $SETNRY_DATABASE_NAME -U $DATABASE_USER
+      interval: 5s
+      timeout: 5s
+      retries: 40
+
+volumes:
+  sentry_db_data:
