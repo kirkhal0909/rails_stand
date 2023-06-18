@@ -1,10 +1,39 @@
-<script setup lang="ts">
+
+<script>
 import WelcomeItem from './WelcomeItem.vue'
 import DocumentationIcon from './icons/IconDocumentation.vue'
 import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import SupportIcon from './icons/IconSupport.vue'
+
+export default {
+  data() {
+    return {
+      info: null,
+      loading: true,
+      errored: false
+    };
+  },
+  filters: {
+    currencydecimal(value) {
+      return value.toFixed(2);
+    }
+  },
+  mounted() {
+
+    this.$axios
+      .get('/track/3',{ crossdomain: true })
+      .then(response => {
+        this.info = response.data.bpi;
+      })
+      .catch(error => {
+        console.log(error);
+        this.errored = true;
+      })
+      .finally(() => (this.loading = false));
+  }
+}
 </script>
 
 <template>
@@ -83,4 +112,7 @@ import SupportIcon from './icons/IconSupport.vue'
     us by
     <a href="https://vuejs.org/sponsor/" target="_blank" rel="noopener">becoming a sponsor</a>.
   </WelcomeItem>
+  <p>
+    {{ info }}
+  </p>
 </template>
