@@ -18,7 +18,7 @@ services:
     image: sentry
     links:
      - redis
-     - postgres-sentry
+     - sentry-postgres
     ports:
      - 9000:9000
     environment:
@@ -32,7 +32,35 @@ services:
       SENTRY_DB_PASSWORD: "$DATABASE_PASSWORD"
       SENTRY_REDIS_HOST: "redis"
 
-  postgres-sentry:
+  sentry-cron:
+    image: sentry
+    command: run cron
+    environment:
+      SENTRY_POSTGRES_HOST: "$SENTRY_DATABASE_HOST"
+      SENTRY_DB_NAME: "$SETNRY_DATABASE_NAME"
+      SENTRY_DB_USER: "$DATABASE_USER"
+      SENTRY_DB_PASSWORD: "$DATABASE_PASSWORD"
+      SENTRY_SECRET_KEY: "$SENTRY_SECRET_KEY"
+      SENTRY_REDIS_HOST: "redis"
+    depends_on:
+      - sentry-postgres
+      - redis
+
+  sentry-worker:
+    image: sentry
+    command: run worker
+    environment:
+      SENTRY_POSTGRES_HOST: "$SENTRY_DATABASE_HOST"
+      SENTRY_DB_NAME: "$SETNRY_DATABASE_NAME"
+      SENTRY_DB_USER: "$DATABASE_USER"
+      SENTRY_DB_PASSWORD: "$DATABASE_PASSWORD"
+      SENTRY_SECRET_KEY: "$SENTRY_SECRET_KEY"
+      SENTRY_REDIS_HOST: "redis"
+    depends_on:
+      - sentry-postgres
+      - redis
+
+  sentry-postgres:
     image: postgres:15
     volumes:
       - sentry_db_data:/var/lib/postgresql/data
@@ -49,7 +77,8 @@ services:
       retries: 40
 
   redis:
-    image: redis
+    image: redis:7.0
+    command: redis-server --save "" --appendonly "no"
 
   postgres:
     image: postgres:15
