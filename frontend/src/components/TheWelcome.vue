@@ -23,9 +23,9 @@ export default {
   mounted() {
 
     this.$axios
-      .get('/track/3',{ crossdomain: true })
+      .get('/api/track/3')
       .then(response => {
-        this.info = response.data.bpi;
+        this.info = response.data;
       })
       .catch(error => {
         console.log(error);
@@ -113,6 +113,6 @@ export default {
     <a href="https://vuejs.org/sponsor/" target="_blank" rel="noopener">becoming a sponsor</a>.
   </WelcomeItem>
   <p>
-    {{ info }}
+    {{ this.info }}
   </p>
 </template>

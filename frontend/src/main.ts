@@ -11,6 +11,6 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(axios, import.meta.env.VITE_BACKEND )
+app.use(axios)
 
 app.mount('#app')

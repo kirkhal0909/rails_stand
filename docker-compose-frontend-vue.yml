@@ -10,7 +10,7 @@ services:
       - ./frontend:/app
       - node_cache:/app/node_modules
     environment:
-      - VITE_BACKEND=http://rails:3000
+      - VITE_BACKEND=http://#{HOST_RAILS}:3000
 
 volumes:
   node_cache:

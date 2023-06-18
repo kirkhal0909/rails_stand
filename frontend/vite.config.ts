@@ -11,6 +11,13 @@ export default defineConfig({
     vueJsx(),
   ],
   server: {
+    proxy: {
+      '/api': {
+        target: 'http://rails:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    },
     watch: {
       usePolling: true,
     },
