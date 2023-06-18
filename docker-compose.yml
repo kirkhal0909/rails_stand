@@ -15,6 +15,7 @@ services:
       RAILS_ENV: development
 
   sentry:
+    hostname: sentry
     image: sentry
     links:
      - redis
@@ -92,6 +93,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 40
+
+networks:
+  backend:
 
 volumes:
   gem_cache:

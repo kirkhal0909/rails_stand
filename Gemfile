@@ -44,7 +44,7 @@ gem 'bootsnap', require: false
 
 gem 'dotenv-rails'
 
-gem 'sentry-rails'
+gem 'sentry-raven'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
