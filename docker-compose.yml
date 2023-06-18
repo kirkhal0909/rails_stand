@@ -61,11 +61,11 @@ services:
       - redis
 
   sentry-postgres:
-    image: postgres:15
+    image: postgres:15.3
     volumes:
       - sentry_db_data:/var/lib/postgresql/data
     environment:
-      #POSTGRES_DB: "$SETNRY_DATABASE_NAME"
+      POSTGRES_DB: "$SETNRY_DATABASE_NAME"
       POSTGRES_USER: "$DATABASE_USER"
       POSTGRES_PASSWORD: "$DATABASE_PASSWORD"
     ports:
@@ -80,7 +80,7 @@ services:
     image: redis:6.2.6
 
   postgres:
-    image: postgres:15
+    image: postgres:15.3
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:

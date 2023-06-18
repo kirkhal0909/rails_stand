@@ -26,6 +26,9 @@ module RailsStand
 
     Sentry.init do |config|
       config.dsn = ENV['SENTRY_DSN']
+      config.background_worker_threads = 0
+      config.breadcrumbs_logger = %i[active_support_logger http_logger]
+      config.traces_sample_rate = 1.0
     end
 
     # Configuration for the application, engines, and railties goes here.
