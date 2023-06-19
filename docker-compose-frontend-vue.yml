@@ -1,0 +1,16 @@
+services:
+  frontend-vue:
+    build:
+      context: .
+      dockerfile: config/docker/vue/Dockerfile
+    command: npm run serve
+    ports:
+      - "80:8080"
+    volumes:
+      - ./frontend:/app
+      - node_cache:/app/node_modules
+    environment:
+      - VITE_BACKEND=http://${HOST_RAILS}:3000
+
+volumes:
+  node_cache:

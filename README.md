@@ -22,6 +22,10 @@ make stop
 
 ![](_README/sentry.png)
 
+# Vue с внутренним перенаправлением на сервер rails (proxy)
+
+![](_README/vue_proxy_rails.png)
+
 # План тренировки
 
 ![](_README/plan.png)

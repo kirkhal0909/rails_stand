@@ -9,6 +9,6 @@ class TrackController < ApplicationController
         Raven.capture_exception(e)
       end
     end
-    render json: params[:id]
+    render json: { id: params[:id] }
   end
 end
