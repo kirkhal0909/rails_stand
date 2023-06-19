@@ -18,6 +18,9 @@ Style/SingleArgumentDig:
   Enabled: false
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
+Style/BlockComments:
+  Exclude:
+    - 'spec/spec_helper.rb'
 Lint/MissingSuper:
   Enabled: false
 Metrics/MethodLength:
