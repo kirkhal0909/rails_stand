@@ -12,3 +12,14 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/Documentation:
   Enabled: false
+Style/ClassVars:
+  Enabled: false
+Style/SingleArgumentDig:
+  Enabled: false
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+Lint/MissingSuper:
+  Enabled: false
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/**/*'

@@ -10,8 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 0) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_19_182814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "ticker_values", force: :cascade do |t|
+    t.bigint "ticker_id", null: false
+    t.date "date", null: false
+    t.float "open"
+    t.float "low"
+    t.float "high"
+    t.float "close"
+    t.float "volume"
+    t.float "value"
+    t.float "capitalization"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ticker_id", "date"], name: "index_ticker_values_on_ticker_id_and_date", unique: true
+    t.index ["ticker_id"], name: "index_ticker_values_on_ticker_id"
+  end
+
+  create_table "tickers", force: :cascade do |t|
+    t.string "symbol", null: false
+    t.string "name"
+    t.string "name_full"
+    t.string "name_en"
+    t.string "isin"
+    t.integer "list_level"
+    t.string "sec_type"
+    t.integer "symbol_type", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["symbol"], name: "index_tickers_on_symbol", unique: true
+  end
+
+  add_foreign_key "ticker_values", "tickers"
 end

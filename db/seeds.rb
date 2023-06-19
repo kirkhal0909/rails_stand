@@ -5,3 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+client_moex = Moex::Client.new
+Moex::UpdateTickersInfoService.new(client_moex).call
+Moex::TickerLoadHistoryService.new(client_moex, 'SBER').call
