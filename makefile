@@ -3,6 +3,7 @@ start:
 		-f docker-compose-rails.yml \
 		-f docker-compose-sentry.yml \
 		-f docker-compose-frontend-vue.yml \
+		-f docker-compose-elasticsearch.yml \
 		up -d
 
 build:
@@ -10,6 +11,7 @@ build:
 		-f docker-compose-rails.yml \
 		-f docker-compose-sentry.yml \
 		-f docker-compose-frontend-vue.yml \
+		-f docker-compose-elasticsearch.yml \
 		up --build  -d
 
 init:
@@ -21,6 +23,7 @@ stop:
 		-f docker-compose-rails.yml \
 		-f docker-compose-sentry.yml \
 		-f docker-compose-frontend-vue.yml \
+		-f docker-compose-elasticsearch.yml \
 		down
 
 db_init:
