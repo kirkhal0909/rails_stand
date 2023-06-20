@@ -11,6 +11,19 @@ class Ticker < ApplicationRecord
     end
   end
 
+  def self.search(query)
+    __elasticsearch__.search(
+      {
+        query: {
+          multi_match: {
+            query: query, fuzziness: 'AUTO',
+            fields: %w[symbol name name_full name_en]
+          }
+        }
+      }
+    )
+  end
+
   enum symbol_type: %i[symbol_shares symbol_index]
 
   has_many :ticker_values
