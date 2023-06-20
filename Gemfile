@@ -48,6 +48,10 @@ gem 'sentry-raven'
 
 gem 'httparty'
 
+gem 'elasticsearch', '7.2.0'
+gem 'elasticsearch-model', '7.2.0'
+gem 'elasticsearch-rails', '7.2.0'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 

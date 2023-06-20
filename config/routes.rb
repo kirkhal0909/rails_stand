@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   get '/track/:id', action: :track, controller: 'track'
+  get '/tickers/search', action: :search, controller: 'tickers'
 end
