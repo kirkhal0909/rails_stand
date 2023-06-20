@@ -18,6 +18,17 @@ make start
 make stop
 ```
 
+# План тренировки
+
+![](_README/plan.png)
+
+
+# Elasticsearch поиск по multi_match
+<p float="left">
+  <img src="_README/elasticsearch_ru.png" width="40%" />
+  <img src="_README/elasticsearch_en.png" width="40%" />
+</p>
+
 # Sentry (локальный, без покупки внешних тарифов https://sentry.io/pricing/)
 
 ![](_README/sentry.png)
@@ -25,8 +36,3 @@ make stop
 # Vue с внутренним перенаправлением на сервер rails (proxy)
 
 ![](_README/vue_proxy_rails.png)
-
-# План тренировки
-
-![](_README/plan.png)
-

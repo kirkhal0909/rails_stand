@@ -1,3 +1,6 @@
+local_c:
+	DATABASE_HOST=localhost DATABASE_PORT=5432 DATABASE_USER= DATABASE_PASSWORD= DATABASE_NAME= HOST_ELASTICSEARCH=localhost:9200 bin/rails c
+
 start:
 	docker compose --env-file .env \
 		-f docker-compose-rails.yml \
